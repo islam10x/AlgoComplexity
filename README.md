@@ -64,4 +64,6 @@ Complexity :
 	O(log(n)):Test(n)
 	O(n):Initializeteams()
 total complexity : 1+ log(n) + n
-Final Complexity is O(n)	 
+Final Complexity is O(n)
+
+
