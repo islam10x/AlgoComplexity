@@ -13,6 +13,6 @@ def minCoinsOptimized(N,coins,memo={}):
         memo[N] = max((num for num in coins if num < N), default=None)
         return 1 + minCoinsOptimized(N-memo[N],coins,memo)
 
-print(minCoinsOptimized(47, {1,5,10,25}))
+print(minCoinsOptimized(6, {1,3,4}))
 
 # O(N*len(coins)) complexity

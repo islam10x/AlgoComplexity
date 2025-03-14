@@ -1,6 +1,7 @@
 import time
 import random
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 # 📌 Bubble Sort Implementation (To be completed by students)
 def bubble_sort(arr):
@@ -34,57 +35,95 @@ def selection_sort(arr):
 
     return arr
 
+# 📌 Insertion Sort Implementation (To be completed by students)
+def insertion_sort(arr):
+    length = len(arr)
+    for i in range(1,length):
+        Key=arr[i]
+        j=i-1
+        while j >= 0 and arr[j] > Key:
+            arr[j+1] = arr[j]
+            j-=1
+        arr[j+1] = Key
+
+    return arr
 
 # 📌 Function to test sorting performance
 def test_sorting_performance():
     """
-    Generates a list of random numbers and tests the execution time of both sorting algorithms.
+    Generates lists of random numbers and tests the execution time of sorting algorithms.
     """
-    small_dataset = [random.uniform(1, 100) for _ in range(50)]
-    large_dataset = [random.uniform(1, 100) for _ in range(10000)]
+    # Create arrays of different sizes
+    sizes = [1000 * i for i in range(0, 11)]  # From 1000 to 10000 with step 1000
+    dataset = []
 
-    print("\n🔹 Small Dataset (50 elements):")
+    for size in sizes:
+        dataset.append([random.uniform(1, 100) for _ in range(size)])
 
-    # Bubble Sort test
-    bubble_test = small_dataset.copy()
-    start_time = time.time()
-    bubble_sort(bubble_test)
-    end_time = time.time()
-    print(f"✅ Bubble Sort took {end_time - start_time:.6f} seconds.")
+    # Create data for timing results
+    times1 = []  # Bubble sort
+    times2 = []  # Selection sort
+    times3 = []  # Insertion sort
+    times4 = []  # Python's built-in sort
 
-    # Selection Sort test
-    selection_test = small_dataset.copy()
-    start_time = time.time()
-    selection_sort(selection_test)
-    end_time = time.time()
-    print(f"✅ Selection Sort took {end_time - start_time:.6f} seconds.")
+    # Measure execution times
+    for data in dataset:
+        # Make copies to avoid sorting already sorted arrays
+        data1 = data.copy()
+        data2 = data.copy()
+        data3 = data.copy()
+        data4 = data.copy()
 
-    print("\n🔹 Large Dataset (1000 elements):")
+        # Bubble sort
+        start = time.time()
+        bubble_sort(data1)
+        end = time.time()
+        times1.append(end - start)
 
-    # Bubble Sort test
-    bubble_test = large_dataset.copy()
-    start_time = time.time()
-    bubble_sort(bubble_test)
-    end_time = time.time()
-    print(f"⚠️ Bubble Sort took {end_time - start_time:.6f} seconds.")
+        # Selection sort
+        start = time.time()
+        selection_sort(data2)
+        end = time.time()
+        times2.append(end - start)
 
-    # Selection Sort test
-    selection_test = large_dataset.copy()
-    start_time = time.time()
-    selection_sort(selection_test)
-    end_time = time.time()
-    print(f"✅ Selection Sort took {end_time - start_time:.6f} seconds.")
+        # Insertion sort
+        start = time.time()
+        insertion_sort(data3)
+        end = time.time()
+        times3.append(end - start)
 
-    # Python Built-in Sort
-    python_sort_test = large_dataset.copy()
-    start_time = time.time()
-    sorted(python_sort_test)
-    end_time = time.time()
-    print(f"🚀 Python Built-in Sort took {end_time - start_time:.6f} seconds.")
+        # Python's built-in sort
+        start = time.time()
+        sorted(data4)
+        end = time.time()
+        times4.append(end - start)
+
+    # Create the plot
+    plt.figure(figsize=(10, 6))
+    plt.plot(sizes, times1, 'o-', label='Bubble Sort')
+    plt.plot(sizes, times2, 's-', label='Selection Sort')
+    plt.plot(sizes, times3, '^-', label='Insertion Sort')
+    plt.plot(sizes, times4, 'v-', label='Python Built-in Sort')
+
+    # Add labels and title
+    plt.xlabel('Input Size (number of elements)')
+    plt.ylabel('Execution Time (seconds)')
+    plt.title('Sorting Algorithm Runtime Comparison')
+    plt.grid(True)
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+
+
 
 
 # Run the performance test
 test_sorting_performance()
+
+
+
 
 
 
